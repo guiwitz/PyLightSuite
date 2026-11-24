@@ -24,16 +24,11 @@ def _validate_napari_install() -> None:
     """Catch incomplete napari / PyOpenGL installs before Qt tries to create a GL context."""
     from pathlib import Path
 
-    import napari
-
-    logo = Path(napari.__file__).resolve().parent / "resources" / "logos" / "gradient-plain-dark.svg"
-    if not logo.is_file():
-        msg = (
-            "The napari package in this environment is incomplete "
-            "(missing resources/logos/gradient-plain-dark.svg). "
-            "Repair with: uv sync --extra gui"
-        )
-        raise RuntimeError(msg)
+    try:
+        import napari
+    except ImportError as exc:
+        msg = "Napari GUI requires: uv sync --extra gui"
+        raise RuntimeError(msg) from exc
 
     try:
         from OpenGL.arrays import numpymodule  # noqa: F401
