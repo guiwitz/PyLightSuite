@@ -17,6 +17,6 @@ build/
 plots/
 
 # Local data & docs builds
-atlas/
+/atlas/
 site/
 softwares/
